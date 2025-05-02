@@ -1,0 +1,90 @@
+# Backend Documentation
+
+This is the backend for the application. It includes user registration, authentication, and database connectivity using MongoDB.
+
+---
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [User Registration](#user-registration)
+   - [How It Works](#how-it-works)
+   - [Validation Rules](#validation-rules)
+   - [Example Request](#example-request)
+   - [Error Handling](#error-handling)
+3. [Environment Setup](#environment-setup)
+4. [Running the Server](#running-the-server)
+
+---
+
+## Overview
+
+The backend is built using **Node.js** and **Express.js**. It connects to a **MongoDB** database and provides APIs for user management, including registration and authentication. The backend also uses **JWT** for secure token-based authentication.
+
+---
+
+## User Registration
+
+The `/users/register` endpoint is used to register a new user in the system. Below is a detailed explanation of how the user registration process works.
+
+### How It Works
+
+1. **Route Definition**:
+   - The `/users/register` route is defined in the `routes/user.routes.js` file.
+   - It uses `express-validator` to validate the incoming request data.
+
+2. **Controller**:
+   - The `registerUser` function in `controllers/user.controllers.js` handles the registration logic.
+   - It performs the following steps:
+     - Validates the request body for required fields (`fullname.firstname`, `fullname.lastname`, `email`, and `password`).
+     - Hashes the password using the `hashPassword` method from the `user.model.js` file.
+     - Calls the `createUser` service to save the user in the database.
+
+3. **Service**:
+   - The `createUser` function in `services/user.services.js` is responsible for creating a new user in the database.
+   - It uses the `userModel` to save the user data, including the hashed password.
+
+4. **Response**:
+   - Once the user is successfully created, a JWT token is generated using the `generateAuthToken` method from the `user.model.js` file.
+   - The response includes the token and the user details.
+
+---
+
+### Validation Rules
+
+The following validation rules are applied to the request body:
+
+- `fullname.firstname`: Must be a string with a minimum length of 3 characters.
+- `fullname.lastname`: Must be a string with a minimum length of 3 characters.
+- `email`: Must be a valid email address.
+- `password`: Must be a string with a minimum length of 6 characters.
+
+---
+
+### Example Request
+
+**Endpoint**: `POST /users/register`
+
+**Request Body**:
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "johndoe@example.com",
+  "password": "password123"
+}
+```
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "_id": "64f8c0e5b5f1a2b3c4d5e6f7",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "johndoe@example.com"
+  }
+}
