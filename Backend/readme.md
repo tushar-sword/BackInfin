@@ -71,3 +71,41 @@ Registers a new user in the system.
       "email": "johndoe@example.com"
     }
   }
+---
+
+## 🔑 User Login
+
+**Endpoint:** `POST /users/login`  
+Authenticates an existing user and returns a JWT token.
+
+---
+
+### ⚙️ How It Works
+
+#### 1. **Route:**
+- Defined in: `routes/user.routes.js`
+- Validates request using `express-validator`
+
+#### 2. **Controller:**
+- Function: `loginUser` in `controllers/user.controllers.js`
+- Responsibilities:
+  - Validates body fields
+  - Checks if the user exists in the database
+  - Compares the provided password with the hashed password using `userModel.comparePassword`
+  - Returns a JWT token and user info if authentication is successful
+
+#### 3. **Response:**
+- JWT token generated via `generateAuthToken` method
+- Returns:
+  ```json
+  {
+    "token": "<JWT_TOKEN>",
+    "user": {
+      "_id": "<USER_ID>",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "johndoe@example.com"
+    }
+  }

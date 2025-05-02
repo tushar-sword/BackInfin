@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 6,
-        select: false, 
+        select: false, //when you query the user, the password will not be returned by default
     },
     phone: {
         type: String,
