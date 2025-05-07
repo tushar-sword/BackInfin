@@ -6,6 +6,7 @@ const userController = require("../controllers/user.controllers");
 //we need to validate the data we get from the frontend
 const { body } = require("express-validator");
 
+//check if the data is valid (call Register function from controller ) and if not return the error message 
 router.post( "/register",
   [
     body("email").isEmail().withMessage("Invalid email"),
@@ -22,8 +23,10 @@ router.post( "/register",
   userController.registerUser, // Register user
 );
 
-router.post(
-  "/login",
+
+
+//check if the data is valid (call Logini function from controller ) and if not return the error message 
+router.post("/login",
   [
     body("email").isEmail().withMessage("Invalid email"),
     body("password")
@@ -32,5 +35,7 @@ router.post(
   ],
   userController.loginUser, // Login user
 );
+
+router.post("/userProfile", userController.userProfile); // Get user profile
 
 module.exports = router;
